@@ -45,16 +45,16 @@ class _SearchPageState extends State<SearchPage> {
           actions: [
             TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('取消', style: TextStyle(color: Colors.grey[700])),
+            ),
+            TextButton(
+              onPressed: () {
                 _clearRecentSearches();
                 Navigator.of(context).pop();
               },
               child: Text('确认', style: TextStyle(color: Colors.red)),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('取消', style: TextStyle(color: Colors.blueAccent)),
             ),
           ],
         );
@@ -80,16 +80,16 @@ class _SearchPageState extends State<SearchPage> {
           actions: [
             TextButton(
               onPressed: () {
-                _clearRecentSearches();
                 Navigator.of(context).pop();
               },
-              child: Text('确认', style: TextStyle(color: Colors.red)),
+              child: Text('取消', style: TextStyle(color: Colors.grey[700])),
             ),
             TextButton(
               onPressed: () {
+                _deleteSingleSearch(search);
                 Navigator.of(context).pop();
               },
-              child: Text('取消', style: TextStyle(color: Colors.blueAccent)),
+              child: Text('确认', style: TextStyle(color: Colors.red)),
             ),
           ],
         );
@@ -109,7 +109,7 @@ class _SearchPageState extends State<SearchPage> {
     setState(() {
       _showAll = !_showAll;
     });
-    FocusScope.of(context).unfocus();
+    FocusScope.of(context).unfocus(); // 收起键盘
   }
 
   @override
@@ -188,36 +188,15 @@ class _SearchPageState extends State<SearchPage> {
                   '历史记录',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-                Row(
-                  children: [
-                    // 原有的清空按钮
-                    if (_recentSearches.isNotEmpty)
-                      TextButton.icon(
-                        onPressed: _confirmClearRecentSearches,
-                        icon: Icon(Icons.delete, color: Colors.grey[700]),
-                        label: Text(
-                          '清空',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      ),
-                    Text('|', style: TextStyle(fontSize: 14, color: Colors.grey[700])),
-                    // 新增的显示全部按钮
-                    if (_recentSearches.length > 3)
-                      TextButton(
-                        onPressed: _toggleShowAll,
-                        child: Text(
-                          _showAll ? '收起' : '展开',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
+                if (_recentSearches.isNotEmpty)
+                  TextButton.icon(
+                    onPressed: _confirmClearRecentSearches,
+                    icon: Icon(Icons.delete, color: Colors.grey[700]),
+                    label: Text(
+                      '清空',
+                      style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -227,9 +206,7 @@ class _SearchPageState extends State<SearchPage> {
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
-                itemCount: _showAll
-                    ? _recentSearches.length
-                    : (_recentSearches.length > 3 ? 3 : _recentSearches.length),
+                itemCount: _showAll ? _recentSearches.length : (_recentSearches.length > 3 ? 3 : _recentSearches.length),
                 itemBuilder: (context, index) {
                   return ListTile(
                     contentPadding: EdgeInsets.only(left: 8),
@@ -247,6 +224,14 @@ class _SearchPageState extends State<SearchPage> {
               ),
             ),
           ),
+          if (_recentSearches.length > 3)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: TextButton(
+                onPressed: _toggleShowAll,
+                child: Text(_showAll ? '收起' : '显示全部', style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+              ),
+            ),
         ],
       ),
     );
