@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'search_result_page.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -45,16 +46,16 @@ class _SearchPageState extends State<SearchPage> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('取消', style: TextStyle(color: Colors.grey[700])),
-            ),
-            TextButton(
-              onPressed: () {
                 _clearRecentSearches();
                 Navigator.of(context).pop();
               },
               child: Text('确认', style: TextStyle(color: Colors.red)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('取消', style: TextStyle(color: Colors.grey[700])),
             ),
           ],
         );
@@ -80,16 +81,16 @@ class _SearchPageState extends State<SearchPage> {
           actions: [
             TextButton(
               onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('取消', style: TextStyle(color: Colors.grey[700])),
-            ),
-            TextButton(
-              onPressed: () {
                 _deleteSingleSearch(search);
                 Navigator.of(context).pop();
               },
               child: Text('确认', style: TextStyle(color: Colors.red)),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('取消', style: TextStyle(color: Colors.grey[700])),
             ),
           ],
         );
@@ -159,8 +160,14 @@ class _SearchPageState extends State<SearchPage> {
                               ),
                               onSubmitted: (query) {
                                 _saveRecentSearches(query);
-                                print('搜索：$query');
-                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) =>
+                                            SearchResultPage(query: query),
+                                  ),
+                                );
                               },
                             ),
                           ),
@@ -206,7 +213,12 @@ class _SearchPageState extends State<SearchPage> {
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 shrinkWrap: true,
-                itemCount: _showAll ? _recentSearches.length : (_recentSearches.length > 3 ? 3 : _recentSearches.length),
+                itemCount:
+                    _showAll
+                        ? _recentSearches.length
+                        : (_recentSearches.length > 3
+                            ? 3
+                            : _recentSearches.length),
                 itemBuilder: (context, index) {
                   return ListTile(
                     contentPadding: EdgeInsets.only(left: 8),
@@ -229,7 +241,10 @@ class _SearchPageState extends State<SearchPage> {
               padding: const EdgeInsets.only(bottom: 16.0),
               child: TextButton(
                 onPressed: _toggleShowAll,
-                child: Text(_showAll ? '收起' : '显示全部', style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                child: Text(
+                  _showAll ? '收起' : '显示全部',
+                  style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                ),
               ),
             ),
         ],

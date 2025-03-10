@@ -13,9 +13,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text('搜索示例')),
-        body: Container(
-          padding: const EdgeInsets.all(16.0),
-          child: MySearchBar(),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: MySearchBar(),
+            ),
+          ],
         ),
       ),
     );
