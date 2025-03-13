@@ -8,14 +8,14 @@ import 'music_api.dart';
 import 'package:http/http.dart' as http;
 
 
-Future<String> search({required String keyword}) async{
+Future<String> search({required String keyword,int limit = 10}) async{
 
   //单曲搜索用path和url
   String path = MusicApi.Path.list;
   String url = MusicApi.Url.list;
 
   //生成请求体参数
-  String searchData = ParamsGen.getListData(keyword: keyword);
+  String searchData = ParamsGen.getListData(keyword: keyword,limit: limit);
   String md5 = ParamsGen.generateMd5Hash(path: path, data: searchData);
   String meta = ParamsGen.generateMeta(path, searchData, md5);
   String param = ParamsGen.generateParam(meta);

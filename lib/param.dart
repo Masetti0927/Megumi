@@ -47,8 +47,8 @@ class ParamsGen {
   //生成搜索列表数据
   static String getListData({
     required String keyword,
-    String limit = "50",
-    String offset = "0",
+    int limit = 10,
+    int offset = 0,
   }) {
     Map<String, dynamic> data = {
       "keyword": keyword,

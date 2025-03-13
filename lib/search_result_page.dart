@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'search.dart';
+import 'result_json.dart';
 
 class SearchResultPage extends StatelessWidget {
   final String query;
@@ -79,10 +81,54 @@ class SearchResultPage extends StatelessWidget {
           ),
           SizedBox(height: 16),
           Expanded(
-            child: Center(
-              child: Text(
-                '搜索结果：$query',
-                style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+            child: Expanded(
+              child: FutureBuilder<List<Map<String, dynamic>>>(
+                future: search(keyword: query,limit: 10).then(processSearchResults),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+
+                  final results = snapshot.data!;
+                  if (results.isEmpty) {
+                    return Center(child: Text('未找到搜索结果'));
+                  }
+
+                  return ListView.builder(
+                    itemCount: results.length > 10 ? 10 : results.length,
+                    itemBuilder: (context, index) {
+                      final item = results[index];
+                      final String imageUrl =
+                          '${item["albumPicUrl"]}?param=100x100';
+                      final String title = item["name"];
+                      final String artists = (item["artists"] as List<String>)
+                          .join(' / ');
+
+                      return ListTile(
+                        leading: Image.network(
+                          imageUrl,
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
+                        title: Text(
+                          title,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        subtitle: Text(
+                          artists,
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                        onTap: () {
+                          // 这里可以添加点击事件处理
+                        },
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ),
