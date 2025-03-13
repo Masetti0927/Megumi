@@ -1,16 +1,12 @@
-# demo
+# Megumi
 
-A new Flutter project.
+使用Flutter编写的音乐App。
 
-## Getting Started
+#参考
 
-This project is a starting point for a Flutter application.
+网易云音乐的版权、海外播放限制及破解：
+https://fireattack.wordpress.com/2016/03/27/netease-music/?like_comment=369
 
-A few resources to get you started if this is your first Flutter project:
+尝鲜抓包工具Reqable，巧用脚本解密网易云音乐：
+https://shakaianee.top/archives/944/
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
