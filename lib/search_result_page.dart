@@ -55,7 +55,9 @@ class SearchResultPage extends StatelessWidget {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => SearchResultPage(query: newQuery),
+                                    builder:
+                                        (context) =>
+                                            SearchResultPage(query: newQuery),
                                   ),
                                 );
                               },
@@ -78,7 +80,10 @@ class SearchResultPage extends StatelessWidget {
           SizedBox(height: 16),
           Expanded(
             child: Center(
-              child: Text('搜索结果：$query', style: TextStyle(fontSize: 18, color: Colors.grey[600])),
+              child: Text(
+                '搜索结果：$query',
+                style: TextStyle(fontSize: 18, color: Colors.grey[600]),
+              ),
             ),
           ),
         ],

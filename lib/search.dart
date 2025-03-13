@@ -26,17 +26,18 @@ Future<String> search({required String keyword}) async{
   return CryptoUtil.decryptFromHex(response);
 }
 
-void run() async {
-  print("Starting...");
-  String res = await search(keyword: "洛天依");
-  print("Request finished");
-
-}
 
 void main() async {
   await measureTime(() async {
     run();
   });
+}
+
+void run() async {
+  print("Starting...");
+  String res = await search(keyword: "洛天依");
+  print("Request finished");
+
 }
 
 Future<void> measureTime(Future<void> Function() action) async {
